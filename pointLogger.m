@@ -39,8 +39,13 @@ classdef pointLogger < handle
             obj.curInd=[];
         end
         function draw(obj)
-            
-                delete(obj.handles);
+            for i=1:length(obj.handles)
+                try
+                    
+                delete(obj.handles(i));
+                catch
+                end
+            end
             
             obj.handles=[];
             if ~isempty(obj.points)
