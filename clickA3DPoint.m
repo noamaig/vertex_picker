@@ -1,32 +1,8 @@
-function h = clickA3DPoint(V,T)
-%CLICKA3DPOINT
-%   H = CLICKA3DPOINT(POINTCLOUD) shows a 3D point cloud and lets the user
-%   select points by clicking on them. The selected point is highlighted 
-%   and its index in the point cloud will is printed on the screen. 
-%   POINTCLOUD should be a 3*N matrix, represending N 3D points. 
-%   Handle to the figure is returned.
-%
-%   other functions required:
-%       CALLBACKCLICK3DPOINT  mouse click callback function
-%       ROWNORM returns norms of each row of a matrix
-%       
-%   To test this function ... 
-%       pointCloud = rand(3,100)*100;
-%       h = clickA3DPoint(pointCloud);
-% 
-%       now rotate or move the point cloud and try it again.
-%       (on the figure View menu, turn the Camera Toolbar on, ...)
-%
-%   To turn off the callback ...
-%       set(h, 'WindowButtonDownFcn',''); 
-%
-%   by Babak Taati
-%   http://rcvlab.ece.queensu.ca/~taatib
-%   Robotics and Computer Vision Laboratory (RCVLab)
-%   Queen's University
-%   May 4, 2005 
-%   revised Oct 30, 2007
-%   revised May 19, 2009
+function logger = clickA3DPoint(V,T)
+disp('click on a point on the mesh to select it');
+disp('click ''n'' to progress to adding a *n*ew point while saving the prev');
+disp('click ''d'' to *d*elete the last inserted point');
+disp('click ''s'' to *s*ave and print the selected points to workspace');
 
 if nargin ~= 2
     error('Requires two input arguments.')
@@ -66,6 +42,8 @@ if strcmp(evt.Key,'n')
     logger.addCurPoint();
 elseif strcmp(evt.Key,'d')
     logger.removeLastPoint();
+elseif strcmp(evt.Key,'s')
+    logger.save('test');
 else 
     return;
 end

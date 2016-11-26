@@ -74,6 +74,6 @@ selectedPoint = pointCloud(:, pointCloudIndex);
 %     set(h,'Tag','pt');  % set its Tag property for later use
 % 
 % end
-logger.setCurPoint(selectedPoint');
+logger.setCurPoint(selectedPoint',pointCloudIndex);
 logger.draw();
 fprintf('you clicked on point number %d\n', pointCloudIndex);
