@@ -21,10 +21,12 @@ classdef pointLogger < handle
             obj.curPoint=point;
             obj.curInd=ind;
         end
-        function addCurPoint(obj)
-            if isempty(obj.curPoint)
+        function added=addCurPoint(obj)
+            added=false;
+            if isempty(obj.curPoint) || ismember(obj.curInd,obj.inds)
                 return;
             end
+            added=true;
             obj.points(end+1,:)=obj.curPoint;
             obj.inds(end+1)=obj.curInd;
             obj.curPoint=[];
@@ -42,23 +44,23 @@ classdef pointLogger < handle
             for i=1:length(obj.handles)
                 try
                     
-                delete(obj.handles(i));
+                    delete(obj.handles(i));
                 catch
                 end
             end
             
             obj.handles=[];
             if ~isempty(obj.points)
-                 obj.handles(end+1) = plot3(obj.points(:,1),obj.points(:,2),obj.points(:,3), 'blackO', 'MarkerSize', 10); 
-                 obj.handles(end+1) = plot3(obj.points(:,1),obj.points(:,2),obj.points(:,3), 'blue.', 'MarkerSize', 30); 
-                 for i=1:size(obj.points,1)
-                 obj.handles(end+1) = text(obj.points(i,1),obj.points(i,2),obj.points(i,3),num2str(i),'fontsize',20);
-                 end
+                obj.handles(end+1) = plot3(obj.points(:,1),obj.points(:,2),obj.points(:,3), 'blackO', 'MarkerSize', 10);
+                obj.handles(end+1) = plot3(obj.points(:,1),obj.points(:,2),obj.points(:,3), 'blue.', 'MarkerSize', 30);
+                for i=1:size(obj.points,1)
+                    obj.handles(end+1) = text(obj.points(i,1),obj.points(i,2),obj.points(i,3),num2str(i),'fontsize',20);
+                end
             end
             if ~isempty(obj.curPoint)
-                 obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'blackO', 'MarkerSize', 10); 
-                 obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'black.', 'MarkerSize', 30); 
-                 obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'blackX', 'MarkerSize', 20); 
+                obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'blackO', 'MarkerSize', 10);
+                obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'black.', 'MarkerSize', 30);
+                obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'blackX', 'MarkerSize', 20);
             end
         end
         function save(obj)
@@ -77,7 +79,7 @@ classdef pointLogger < handle
                         end
                     end
                 end
-%                 SAVE_NAME=[name '_' datestr(now,'yymmddHHMM') '.mat'  ];
+                %                 SAVE_NAME=[name '_' datestr(now,'yymmddHHMM') '.mat'  ];
                 inds=obj.inds;
                 mesh_name=obj.name;
                 save(curname,'inds','mesh_name');
