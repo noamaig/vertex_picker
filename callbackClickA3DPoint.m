@@ -1,4 +1,4 @@
-function callbackClickA3DPoint(src, eventData, pointCloud,T,logger)
+function callbackClickA3DPoint(src, eventData, pointCloud,T,valid,logger)
 % CALLBACKCLICK3DPOINT mouse click callback function for CLICKA3DPOINT
 %
 %   The transformation between the viewing frame and the point cloud frame
@@ -30,7 +30,7 @@ yAxis = cross(zAxis, xAxis);
 rot = [xAxis; yAxis; zAxis]; % view rotation 
 
 % the point cloud represented in the view frame
-rotatedPointCloud = rot * pointCloud; 
+rotatedPointCloud = rot * pointCloud(:,valid); 
 % figure(2);
 % clf
 % plot3(rotatedPointCloud(1,:), rotatedPointCloud(2,:), rotatedPointCloud(3,:), 'c.'); 
@@ -54,6 +54,7 @@ d=sum(candidates.^2);
 [~,highest]=min(d);
 
 pointCloudIndex=inds(highest);
+pointCloudIndex=valid(pointCloudIndex);
 % h = findobj(gca,'Tag','pt'); % try to find the old point
 selectedPoint = pointCloud(:, pointCloudIndex); 
 

@@ -34,8 +34,17 @@ hold on; % so we can highlight clicked points without clearing the figure
 axis equal
 % set the callback, pass pointCloud to the callback function
 logger=pointLogger(name);
+tri=triangulation(T',V');
+b=tri.freeBoundary();
+if ~isempty(b)
+    b=b(:,1);
+    
+else
+    b=1:length(V);
+end
+b=b(:,1);
 h=gcf;
-set(h, 'WindowButtonDownFcn', {@callbackClickA3DPoint, V,T,logger}); 
+set(h, 'WindowButtonDownFcn', {@callbackClickA3DPoint, V,T,b,logger}); 
 set(h,'KeyPressFcn',{@keyHandler,logger });
 end
 function keyHandler(h_obj,evt,logger)
