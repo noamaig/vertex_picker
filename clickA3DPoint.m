@@ -1,12 +1,14 @@
-function logger = clickA3DPoint(V,T)
+function logger = clickA3DPoint(V,T,name)
+figure(5);
+clf
+if nargin<3
+    name=[];
+end
 disp('click on a point on the mesh to select it');
 disp('click ''n'' to progress to adding a *n*ew point while saving the prev');
 disp('click ''d'' to *d*elete the last inserted point');
 disp('click ''s'' to *s*ave and print the selected points to workspace');
 
-if nargin ~= 2
-    error('Requires two input arguments.')
-end
 V=V';
 T=T';
 if size(V, 1)~=3
@@ -31,7 +33,7 @@ cameratoolbar('Show'); % show the camera toolbar
 hold on; % so we can highlight clicked points without clearing the figure
 axis equal
 % set the callback, pass pointCloud to the callback function
-logger=pointLogger();
+logger=pointLogger(name);
 h=gcf;
 set(h, 'WindowButtonDownFcn', {@callbackClickA3DPoint, V,T,logger}); 
 set(h,'KeyPressFcn',{@keyHandler,logger });
@@ -43,7 +45,7 @@ if strcmp(evt.Key,'n')
 elseif strcmp(evt.Key,'d')
     logger.removeLastPoint();
 elseif strcmp(evt.Key,'s')
-    logger.save('test');
+    logger.save();
 else 
     return;
 end

@@ -8,9 +8,15 @@ classdef pointLogger < handle
         curInd;
         curPoint;
         handles=[];
+        name;
     end
     
     methods
+        function obj=pointLogger(name)
+            if nargin>0
+                obj.name=name;
+            end
+        end
         function setCurPoint(obj,point,ind)
             obj.curPoint=point;
             obj.curInd=ind;
@@ -50,14 +56,27 @@ classdef pointLogger < handle
                  obj.handles(end+1) = plot3(obj.curPoint(:,1),obj.curPoint(:,2),obj.curPoint(:,3), 'blackX', 'MarkerSize', 20); 
             end
         end
-        function save(obj,name)
+        function save(obj)
             assignin('base', 'selected_points', obj.inds);
             disp('the indices of the selected points were exported to the workspace variable ''selected_points''');
-            if nargin>1
-                SAVE_NAME=[name '_' datestr(now,'yy-mm-dd_HHMM')  ];
+            if ~isempty(obj.name)
+                name=obj.name;
+                name=strsplit(name,'.');
+                name=name{1};
+                curname=[name '.mat'];
+                if exist(curname)==2
+                    for i=1:1000
+                        curname=[name num2str(i) '.mat'];
+                        if exist(curname)~=2
+                            break;
+                        end
+                    end
+                end
+%                 SAVE_NAME=[name '_' datestr(now,'yymmddHHMM') '.mat'  ];
                 inds=obj.inds;
-                save(SAVE_NAME,'inds');
-                disp(['and saved to the file named ''' SAVE_NAME '.mat''']);
+                mesh_name=obj.name;
+                save(curname,'inds','mesh_name');
+                disp(['and saved to the file named ''' curname '''']);
             end
         end
     end
