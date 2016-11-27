@@ -73,7 +73,7 @@ classdef pointLogger < handle
                 curname=[name '.mat'];
                 if exist(curname)==2
                     for i=1:1000
-                        curname=[name num2str(i) '.mat'];
+                        curname=[name '_' num2str(i) '.mat'];
                         if exist(curname)~=2
                             break;
                         end

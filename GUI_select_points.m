@@ -1,4 +1,6 @@
 function logger = GUI_select_points(V,T,name)
+clear logger;
+close(5);
 figure(5);
 clf
 if nargin<3
