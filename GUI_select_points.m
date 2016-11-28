@@ -1,5 +1,6 @@
 function logger = GUI_select_points(V,T,name)
 clear logger;
+figure(5);
 close(5);
 figure(5);
 clf
@@ -19,8 +20,8 @@ hold off
 % plot3(V(1,:), V(2,:), V(3,:), 'c.');
 h=patch('vertices',V,'faces',T,'facecolor',[0.9 0.9 0.9],'edgecolor','none');
 light('Position',[1 0 0],'Style','local','color','cyan')
-light('Position',[0 -1  0],'Style','local','color','magenta')
-light('Position',[0 0 -1],'Style','local','color','yellow')
+light('Position',[0 1  0],'Style','local','color','magenta')
+light('Position',[0 0 1],'Style','local','color','yellow')
 h.FaceLighting = 'flat';
 h.AmbientStrength = 0.0;
 h.DiffuseStrength = 0.8;
