@@ -64,7 +64,7 @@ set(hf,'KeyPressFcn',@key_handler);
     end
     function callback_patch_click(src, eventData)
         p=eventData.IntersectionPoint;
-        ind=knnsearch(V(valid,:),p);
+        ind=knn(V(valid,:),p);
         ind=valid(ind);
         logger.setCurPoint(V(ind,:),ind);
         logger.draw();
